@@ -6,18 +6,19 @@ export default function Histories() {
   const newHistories = histories.histories;
 
   return (
-    <div className="histories">
+    <fieldset className="histories">
+      <legend>Histories</legend>
       {newHistories.map(
         (history)=> {
           return (
             <History 
-              key={crypto.randomUUID()}
+              key={history.id}
               amount={history.amount}
               description={history.description}
             />
           )
         }
       )}
-    </div>
+    </fieldset>
   )
 }

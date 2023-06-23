@@ -80,19 +80,13 @@
 }
 
 .transactionForm {
-  display: flex;
-  flex-direction: column;
+  display: grid;
   width: 80%;
   height: 80%;
-  padding-top: 30px;
+  padding: 10px;
+  gap: 10px;
+  grid-template-columns: 1fr;
   background-color: white;
-}
-
-.transactionForm div {
-  display: flex;
-  flex-direction: column;
-  margin: 5px;
-  width: 80%;
   justify-content: center;
   align-items: center;
 }
