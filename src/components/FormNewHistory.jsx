@@ -1,14 +1,9 @@
 import { useState } from "react";
 import { useGlobalState } from "../context/GlobalState"
 
-const myCategories = {
-  income: ["ingresos extra", "negocios", "pago de seguro", "prestamo", "regalos", "salario", "otros"],
-  expense: ["nada", "otro nada", "que mas quiere", "talan talan", "y ya"]
-}
-
 export default function FormNewHistory() {
-  const {histories, configuration} = useGlobalState();
-  const [categories, setCategories] = useState(myCategories.expense);
+  const {histories, informationData, configuration} = useGlobalState();
+  const [categories, setCategories] = useState(informationData.categories.expense);
   const [data, setData] = useState({
     amount: 0,
     description: "Without description...",
@@ -22,8 +17,8 @@ export default function FormNewHistory() {
     dataCopy[valueType] = value;
 
     if(valueType === "transactionType") {
-      dataCopy.category = myCategories[value][0];
-      setCategories(myCategories[value]);
+      dataCopy.category = informationData.categories[value][0];
+      setCategories(informationData.categories[value]);
     }
 
     setData(dataCopy);
@@ -32,9 +27,8 @@ export default function FormNewHistory() {
   const addNewHistory = (e)=> {
     e.preventDefault();
     let newHistories = histories.histories;
-    const newConfiguration = configuration.configurationData;
+    const newConfiguration = {...configuration.configurationData};
     const newHistory = {
-      id: crypto.randomUUID(),
       amount: data.amount,
       description: data.description,
       transactionType: data.transactionType,
@@ -43,10 +37,10 @@ export default function FormNewHistory() {
     }
     
     newHistories = [newHistory, ...newHistories];
-    console.log(newHistories)
-    histories.setHistories(newHistories);
     newConfiguration.formEnabled = false;
-    /* configuration.setConfigurationData(newConfiguration); */
+
+    histories.setHistories(newHistories);
+    configuration.setConfigurationData(newConfiguration);
   }
 
   return (
@@ -54,7 +48,7 @@ export default function FormNewHistory() {
       <form className="transactionForm">
         <fieldset className="amount">
           <legend>Amount</legend>
-          <input type="number" onChange={ (e)=> addNewData("amount", Number(e.target.value)) } />
+          <input type="number" onChange={ (e)=> addNewData("amount", Math.abs(Number(e.target.value))) } />
         </fieldset>
 
         <fieldset className="description">
