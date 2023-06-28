@@ -3,7 +3,7 @@ import { useGlobalState } from "../context/GlobalState"
 
 export default function FormNewHistory() {
   const {histories, informationData, configuration} = useGlobalState();
-  const [categories, setCategories] = useState(informationData.categories.expense);
+  const [categories, setCategories] = useState(informationData.categories.expense.categories);
   const [data, setData] = useState({
     amount: 0,
     description: "Without description...",
@@ -17,8 +17,8 @@ export default function FormNewHistory() {
     dataCopy[valueType] = value;
 
     if(valueType === "transactionType") {
-      dataCopy.category = informationData.categories[value][0];
-      setCategories(informationData.categories[value]);
+      dataCopy.category = informationData.categories[value].categories[0];
+      setCategories(informationData.categories[value].categories);
     }
 
     setData(dataCopy);
@@ -27,7 +27,6 @@ export default function FormNewHistory() {
   const addNewHistory = (e)=> {
     e.preventDefault();
     let newHistories = histories.histories;
-    const newConfiguration = {...configuration.configurationData};
     const newHistory = {
       amount: data.amount,
       description: data.description,
@@ -35,11 +34,21 @@ export default function FormNewHistory() {
       category: data.category,
       date: new Date()
     }
+
+    const newConfiguration = {...configuration.configurationData};
+    newConfiguration.formEnabled = false;
+    configuration.setConfigurationData(newConfiguration);
     
     newHistories = [newHistory, ...newHistories];
-    newConfiguration.formEnabled = false;
 
     histories.setHistories(newHistories);
+  }
+
+  const closeForm = (e)=> {
+    e.preventDefault();
+    const newConfiguration = {...configuration.configurationData};
+    
+    newConfiguration.formEnabled = false;
     configuration.setConfigurationData(newConfiguration);
   }
 
@@ -74,13 +83,16 @@ export default function FormNewHistory() {
           <select name="category" onChange={ (e)=> addNewData("category", e.target.value) }>
             {categories.map((category, index)=> {
               return (
-                <option key={index}>{category}</option>
+                <option key={index}> {category} </option>
               )
             })}
           </select>
         </fieldset>
 
-        <button onClick={addNewHistory}> create history </button>
+        <div className="formButtonContainer">
+          <button onClick={addNewHistory}> Add </button>
+          <button onClick={closeForm}> Cancel </button>
+        </div>
       </form>
     </div>
   )

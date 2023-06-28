@@ -11,9 +11,8 @@ export default function Histories() {
         (history)=> {
           return (
             <History 
-              key={history.date}
-              amount={history.amount}
-              description={history.description}
+              key = {history.date}
+              data = {history}
             />
           )
         }

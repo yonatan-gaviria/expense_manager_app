@@ -9,8 +9,14 @@ const infoData = {
   totalIncomePercentage: 60,
   totalExpensesPercentage: 40,
   categories: {
-    income: ["Extra income", "Business", "Loans", "Gifts", "Salary", "others"],
-    expense: ["Beatuy", "Food and drink", "Shopping", "Sports", "hobbies", "Education", "Entertainment", "Debts", "Bills", "Family", "personal", "Home", "Provisions", "Gifts", "Health", "Work", "Transportation", "Vehicle", "others"]
+    income: {
+      categories: ["Business", "Extra income", "Gifts", "Loans", "Others", "Salary"],
+      colors: ["#006a00","#0000ff","#ffff00","#ff0000","#444444", "#00ff00"]
+    },
+    expense: {
+      categories: ["Beatuy", "Bills", "Debts", "Education", "Entertainment", "Family", "Food and drink", "Gifts", "Health", "Home", "Others", "Personal", "Provisions", "Shopping", "Transportation", "Work"],
+      colors: ["#ffd0d0", "#00a000", "#64ff64", "#2dabff", "#fe9c00", "#ffa8a8", "#685a44", "#491f81", "#900000", "#000085", "#ababab", "#ff5858", "#777065", "#9754ef", "#ffff00", "#595959"]
+    }
   }
 };
 
@@ -53,7 +59,7 @@ export const GlobalProvider = ({ children })=> {
       newInformationData.totalIncomePercentage = 60;
       newInformationData.totalExpensesPercentage = 40;
     } else { 
-      const newPercentage = (newExpenses / newIncome) * 100; //.toFixed(2)
+      const newPercentage = (newExpenses / newIncome) * 100;
       newInformationData.totalExpensesPercentage = newPercentage;
       newInformationData.totalIncomePercentage = 100 - newPercentage;
     }

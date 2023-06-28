@@ -1,5 +1,5 @@
 import { useGlobalState } from "../context/GlobalState.jsx";
-import Chart from "./charts/Chart.jsx";
+import ChartsContainer from "./ChartsContainer.jsx";
 import Histories from "./Histories.jsx";
 
 export default function Main() {
@@ -13,7 +13,7 @@ export default function Main() {
 
   return (
     <div className="main">
-      <Chart/>
+      <ChartsContainer/>
       <Histories/>
       <div className="newHistory" onClick={ openForm }> + </div>
     </div>
