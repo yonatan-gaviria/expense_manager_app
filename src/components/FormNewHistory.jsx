@@ -6,10 +6,12 @@ export default function FormNewHistory() {
   const [categories, setCategories] = useState(informationData.categories.expense.categories);
   const [data, setData] = useState({
     amount: 0,
-    description: "Without description...",
+    description: "Without description",
     transactionType: "expense",
     category: categories[0],
-    date: ""
+    date: "",
+    color: "",
+    icon: ""
   });
 
   const addNewData = (valueType, value)=> {
@@ -26,13 +28,19 @@ export default function FormNewHistory() {
 
   const addNewHistory = (e)=> {
     e.preventDefault();
+
+    const transactionCopy = informationData.categories[data.transactionType];
+    const index = transactionCopy.categories.findIndex((element)=> element === data.category);
+    console.log(transactionCopy.icons[index])
     let newHistories = histories.histories;
     const newHistory = {
       amount: data.amount,
       description: data.description,
       transactionType: data.transactionType,
       category: data.category,
-      date: new Date()
+      date: new Date(),
+      color: transactionCopy.colors[index],
+      icon: transactionCopy.icons[index]
     }
 
     const newConfiguration = {...configuration.configurationData};
@@ -55,17 +63,7 @@ export default function FormNewHistory() {
   return (
     <div className="formNewHistory">
       <form className="transactionForm">
-        <fieldset className="amount">
-          <legend>Amount</legend>
-          <input type="number" onChange={ (e)=> addNewData("amount", Math.abs(Number(e.target.value))) } />
-        </fieldset>
-
-        <fieldset className="description">
-          <legend>Description</legend>
-          <input type="text" onChange={ (e)=> addNewData("description", e.target.value) } />
-        </fieldset>
-
-        <fieldset className="transactionType" onChange={ (e)=> addNewData("transactionType", e.target.value) }>
+        <fieldset className="formTransactionType" onChange={ (e)=> addNewData("transactionType", e.target.value) }>
           <legend>Transaction type</legend>
           <label>
             <input type="radio" name="transactionType" value="income" /> 
@@ -78,7 +76,7 @@ export default function FormNewHistory() {
           </label>
         </fieldset>
 
-        <fieldset className="category">
+        <fieldset className="formCategory">
           <legend>Category</legend>
           <select name="category" onChange={ (e)=> addNewData("category", e.target.value) }>
             {categories.map((category, index)=> {
@@ -89,6 +87,17 @@ export default function FormNewHistory() {
           </select>
         </fieldset>
 
+        <fieldset className="formAmount">
+          <legend>Amount</legend>
+          <input type="number" onChange={ (e)=> addNewData("amount", Math.abs(Number(e.target.value))) } />
+        </fieldset>
+
+        <fieldset className="formDescription">
+          <legend>Description</legend>
+          <input type="text" onChange={ (e)=> addNewData("description", e.target.value) } />
+        </fieldset>
+
+        
         <div className="formButtonContainer">
           <button onClick={addNewHistory}> Add </button>
           <button onClick={closeForm}> Cancel </button>

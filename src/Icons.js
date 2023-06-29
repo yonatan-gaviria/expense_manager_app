@@ -1,0 +1,22 @@
+export const Icons = {
+  Business: require("../src/Icons/Business.png"),
+  ExtraIncome: require("../src/Icons/ExtraIncome.png"), 
+  Gifts: require("../src/Icons/Gifts.png"), 
+  Loans: "", 
+  Others: require("../src/Icons/Others.png"), 
+  Salary: require("../src/Icons/Salary.png"), 
+  Beatuy: require("../src/Icons/Beatuy.png"), 
+  Bills: require("../src/Icons/Bills.png"), 
+  Debts: require("../src/Icons/Debts.png"), 
+  Education: require("../src/Icons/Education.png"), 
+  Entertainment: "", 
+  Family: require("../src/Icons/Family.png"), 
+  FoodAndDrink: require("../src/Icons/FoodAndDrink.png"), 
+  Health: require("../src/Icons/Health.png"), 
+  Home: require("../src/Icons/Home.png"), 
+  Personal: "", 
+  Provisions: "", 
+  Shopping: require("../src/Icons/Shopping.png"), 
+  Transportation: require("../src/Icons/Transportation.png"), 
+  Work: require("../src/Icons/Work.png")
+}

@@ -37,11 +37,11 @@ export default function IncomeCategoriesChart() {
     <VictoryPie
       colorScale = { chartData.colors }
       data = { chartData.data }
-      animate = { { duration: 1000 } }
-      innerRadius={ ({radius})=> radius / 2 }
+      /* animate = { { duration: 1000 } } */
+      innerRadius={ ({ radius })=> radius / 2 }
       labelRadius = { ({ radius, innerRadius }) => (radius - (radius / 2)) + 5 }
       labelPlacement = { "parallel" }
-      style = { { labels: { fill: "white", fontSize: 15, fontWeight: "bold" } } }
+      style = { { labels: { fontSize: 15, fontWeight: "bold" } } }
     />
   );
 }
