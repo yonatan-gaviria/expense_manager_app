@@ -1,4 +1,4 @@
-import IncomeCategoriesChart from "./charts/IncomeCategoriesChart.jsx";
+import Chart from "./Chart.jsx";
 
 import { useGlobalState } from "../context/GlobalState.jsx";
 
@@ -7,12 +7,12 @@ export default function ChartsContainer() {
 
   return (
     <fieldset className="chartsContainer">
-      <legend>Charts</legend>
+      <legend>Chart</legend>
       
       {histories.histories.length === 0 ?
         <div>No data yet...</div> :
         <div className="chart">
-          <IncomeCategoriesChart/>
+          <Chart/>
         </div>
       }
     </fieldset>

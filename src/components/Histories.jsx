@@ -6,12 +6,12 @@ export default function Histories() {
 
   return (
     <fieldset className="histories">
-      <legend>Histories</legend>
+      <legend>Record</legend>
       {histories.histories.map(
         (history)=> {
           return (
             <History 
-              key = {history.date}
+              key = {history.id}
               data = {history}
             />
           )

@@ -1,5 +1,4 @@
 export default function History({ data }) {
-  const dateString = `${data.date.getDate()}/${data.date.getMonth() + 1}/${data.date.getFullYear()}`;
   
   return (
     <div className = "historyContainer">
@@ -9,7 +8,7 @@ export default function History({ data }) {
       <div className = "history"> 
         <div className = "amountAndDate">
           <div className = { `amount ${data.transactionType}` }>${ data.transactionType === "expense" ? data.amount * -1 : data.amount }</div> 
-          <div className = "date">{ dateString }</div>
+          <div className = "date">{ `${data.date.day}/${data.date.month}/${data.date.year}` }</div>
         </div>
         
         <div className = "description">

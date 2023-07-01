@@ -5,22 +5,36 @@ export default function FormNewHistory() {
   const {histories, informationData, configuration} = useGlobalState();
   const [categories, setCategories] = useState(informationData.categories.expense.categories);
   const [data, setData] = useState({
+    id: "",
     amount: 0,
     description: "Without description",
     transactionType: "expense",
     category: categories[0],
-    date: "",
+    date: {
+      year: Number(new Date().getFullYear()),
+      month: Number(new Date().getMonth()) + 1,
+      day: Number(new Date().getDate()),
+    },
     color: "",
     icon: ""
   });
 
   const addNewData = (valueType, value)=> {
     const dataCopy = data;
-    dataCopy[valueType] = value;
 
     if(valueType === "transactionType") {
+      dataCopy[valueType] = value;
       dataCopy.category = informationData.categories[value].categories[0];
       setCategories(informationData.categories[value].categories);
+
+    } else if(valueType === "date") {
+      const dateArray = value.split("-");
+      dataCopy.date.year = Number(dateArray[0]);
+      dataCopy.date.month = Number(dateArray[1]);
+      dataCopy.date.day = Number(dateArray[2]);
+
+    } else {
+      dataCopy[valueType] = value;
     }
 
     setData(dataCopy);
@@ -31,14 +45,18 @@ export default function FormNewHistory() {
 
     const transactionCopy = informationData.categories[data.transactionType];
     const index = transactionCopy.categories.findIndex((element)=> element === data.category);
-    console.log(transactionCopy.icons[index])
     let newHistories = histories.histories;
     const newHistory = {
+      id: new Date(),
       amount: data.amount,
       description: data.description,
       transactionType: data.transactionType,
       category: data.category,
-      date: new Date(),
+      date: {
+        year: data.date.year,
+        month: data.date.month,
+        day: data.date.day,
+      },
       color: transactionCopy.colors[index],
       icon: transactionCopy.icons[index]
     }
@@ -85,6 +103,11 @@ export default function FormNewHistory() {
               )
             })}
           </select>
+        </fieldset>
+
+        <fieldset className="formDate">
+          <legend>Amount</legend>
+          <input type="date" onChange={ /* (e)=> console.log(e.target.value) */(e)=> addNewData("date", e.target.value) }/>
         </fieldset>
 
         <fieldset className="formAmount">

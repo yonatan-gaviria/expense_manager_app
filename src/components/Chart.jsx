@@ -1,7 +1,7 @@
 import { VictoryPie } from "victory";
-import { useGlobalState } from "../../context/GlobalState";
+import { useGlobalState } from "../context/GlobalState";
 
-export default function IncomeCategoriesChart() {
+export default function Chart() {
   let totalIncomeAmount = 0;
   const { histories, informationData } = useGlobalState();
   const incomeCategoriesCopy = informationData.categories.income.categories;
@@ -12,7 +12,7 @@ export default function IncomeCategoriesChart() {
     colors: []
   };
   
-  histories.histories.map((history)=> {
+  histories.histories.forEach((history)=> {
     if(history.transactionType === "income") {
       totalIncomeAmount += history.amount;
       const index = chartData.categories.findIndex((element)=> element.category === history.category);
@@ -24,7 +24,7 @@ export default function IncomeCategoriesChart() {
     }
   });
 
-  chartData.categories.map((category)=> {
+  chartData.categories.forEach((category)=> {
     const indexColor = incomeCategoriesCopy.findIndex((categoryCopy)=> categoryCopy === category.category);
     chartData.colors.push(colorCopy[indexColor])
 
