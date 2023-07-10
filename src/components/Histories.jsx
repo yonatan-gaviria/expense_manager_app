@@ -11,8 +11,8 @@ export default function Histories() {
         (history)=> {
           return (
             <History 
-              key = {history.id}
-              data = {history}
+              key={ history.id }
+              data={ history }
             />
           )
         }

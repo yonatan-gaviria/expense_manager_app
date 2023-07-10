@@ -7,7 +7,7 @@ export default function FormNewHistory() {
   const [data, setData] = useState({
     id: "",
     amount: 0,
-    description: "Without description",
+    description: "NO DESCRIPTION",
     transactionType: "expense",
     category: categories[0],
     date: {
@@ -16,7 +16,8 @@ export default function FormNewHistory() {
       day: Number(new Date().getDate()),
     },
     color: "",
-    icon: ""
+    icon: "",
+    percentage: "",
   });
 
   const addNewData = (valueType, value)=> {
@@ -58,7 +59,8 @@ export default function FormNewHistory() {
         day: data.date.day,
       },
       color: transactionCopy.colors[index],
-      icon: transactionCopy.icons[index]
+      icon: transactionCopy.icons[index],
+      percentage: ""
     }
 
     const newConfiguration = {...configuration.configurationData};
@@ -99,14 +101,14 @@ export default function FormNewHistory() {
           <select name="category" onChange={ (e)=> addNewData("category", e.target.value) }>
             {categories.map((category, index)=> {
               return (
-                <option key={index}> {category} </option>
+                <option key={ index }> { category } </option>
               )
             })}
           </select>
         </fieldset>
 
         <fieldset className="formDate">
-          <legend>Amount</legend>
+          <legend>Date</legend>
           <input type="date" onChange={ /* (e)=> console.log(e.target.value) */(e)=> addNewData("date", e.target.value) }/>
         </fieldset>
 

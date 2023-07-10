@@ -18,5 +18,6 @@ export const Icons = {
   Pets: require("../src/Icons/Pets.png"),
   Provisions: require("../src/Icons/Provisions.png"), 
   Shopping: require("../src/Icons/Shopping.png"), 
-  Transportation: require("../src/Icons/Transportation.png")
+  Transportation: require("../src/Icons/Transportation.png"),
+  Configuration: require("../src/Icons/Configuration.png")
 }
