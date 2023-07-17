@@ -20,6 +20,25 @@ export default function FormNewHistory() {
     percentage: "",
   });
 
+  const dateNumberToString = ()=> {
+    const newDate = {
+      year: 0,
+      month: 0,
+      day: 0,
+    }
+
+    const today = {
+      month: Number(new Date().getMonth()) + 1,
+      day: Number(new Date().getDate()),
+    };
+    
+    newDate.year = new Date().getFullYear();
+    newDate.month = today.month < 10 ? `0${ today.month }` : `${ today.month }`;
+    newDate.day = today.day < 10 ? `0${ today.day }` : `${ today.day }`;
+    
+    return (`${newDate.year}-${newDate.month}-${newDate.day}`);
+  }
+
   const addNewData = (valueType, value)=> {
     const dataCopy = data;
 
@@ -109,7 +128,13 @@ export default function FormNewHistory() {
 
         <fieldset className="formDate">
           <legend>Date</legend>
-          <input type="date" onChange={ /* (e)=> console.log(e.target.value) */(e)=> addNewData("date", e.target.value) }/>
+          <input 
+            type="date" 
+            defaultValue={ dateNumberToString() } 
+            min="2000-01-01"
+            max={ dateNumberToString() }
+            onChange={ (e)=> addNewData("date", e.target.value) }
+          />
         </fieldset>
 
         <fieldset className="formAmount">
@@ -124,8 +149,8 @@ export default function FormNewHistory() {
 
         
         <div className="formButtonContainer">
-          <button onClick={addNewHistory}> Add </button>
-          <button onClick={closeForm}> Cancel </button>
+          <button onClick={ addNewHistory }> Add </button>
+          <button onClick={ closeForm }> Cancel </button>
         </div>
       </form>
     </div>

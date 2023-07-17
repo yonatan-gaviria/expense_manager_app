@@ -57,17 +57,6 @@ export default function FormChartConfig() {
 
   return (
     <div className="selectsContainer">
-      <div className="chartSelector">
-        <label>
-          Chart
-          <select className="chartType" onChange={ (e)=> updateState("chartType", e.target.value) } value={ state.chartType }>
-            <option>bar</option>
-            <option>line</option>
-            <option>pie</option>
-          </select>
-        </label>
-      </div>
-
       <div className="dataSelector">
         <label>
           Transaction
