@@ -27,7 +27,6 @@ export default function FormChartConfig() {
     configuration.setConfigurationData(configurationCopy);
   }
 
-
   const dateNumberToString = (object)=> {
     const newDate = {
       year: 0,
@@ -55,44 +54,53 @@ export default function FormChartConfig() {
     return (`${newDate.year}-${newDate.month}-${newDate.day}`);
   }
 
+  const closeFormChart = ()=> {
+    const configurationCopy = {...configuration.configurationData}
+    
+    configurationCopy.formChartEnabled = false;
+    configuration.setConfigurationData(configurationCopy);
+  }
+
   return (
-    <div className="selectsContainer">
-      <div className="dataSelector">
-        <label>
-          Transaction
-          <select className="dataType" onChange={ (e)=> updateState("dataType", e.target.value) } value={ state.dataType }>
-            <option>expense</option>
-            <option>income</option>
-            <option>income-expense</option>
-          </select>
-        </label>
-      </div>
+    <div className="selects" onClick={ closeFormChart }>
+      <div className="selectsContainer" onClick={ (e)=> e.stopPropagation() }>
+        <div className="dataSelector">
+          <label>
+            Transaction
+            <select className="dataType" onChange={ (e)=> updateState("dataType", e.target.value) } value={ state.dataType }>
+              <option>expense</option>
+              <option>income</option>
+              <option>income-expense</option>
+            </select>
+          </label>
+        </div>
 
-      <hr></hr>
+        <hr></hr>
 
-      <div>
-        <label>Date range
-          <div>
-            From
-            <input 
-              type="date" 
-              defaultValue={ dateNumberToString("minDate") } 
-              min="2000-01-01"
-              max={ dateNumberToString("today") }
-              onChange={ (e)=> updateDateState("minDate", e.target.value) }
-            />
-          </div>
-          <div>
-            To
-            <input 
-              type="date" 
-              defaultValue={ dateNumberToString("maxDate") } 
-              min={ dateNumberToString("minDate") }
-              max={ dateNumberToString("today") }
-              onChange={ (e)=> updateDateState("maxDate", e.target.value) }
-            />
-          </div>
-        </label>
+        <div>
+          <label>Date range
+            <div>
+              From
+              <input 
+                type="date" 
+                defaultValue={ dateNumberToString("minDate") } 
+                min="2000-01-01"
+                max={ dateNumberToString("today") }
+                onChange={ (e)=> updateDateState("minDate", e.target.value) }
+              />
+            </div>
+            <div>
+              To
+              <input 
+                type="date" 
+                defaultValue={ dateNumberToString("maxDate") } 
+                min={ dateNumberToString("minDate") }
+                max={ dateNumberToString("today") }
+                onChange={ (e)=> updateDateState("maxDate", e.target.value) }
+              />
+            </div>
+          </label>
+        </div>
       </div>
     </div>
   )

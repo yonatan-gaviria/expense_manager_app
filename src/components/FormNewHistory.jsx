@@ -62,6 +62,7 @@ export default function FormNewHistory() {
 
   const addNewHistory = (e)=> {
     e.preventDefault();
+    e.stopPropagation();
 
     const transactionCopy = informationData.categories[data.transactionType];
     const index = transactionCopy.categories.findIndex((element)=> element === data.category);
@@ -93,6 +94,7 @@ export default function FormNewHistory() {
 
   const closeForm = (e)=> {
     e.preventDefault();
+    e.stopPropagation();
     const newConfiguration = {...configuration.configurationData};
     
     newConfiguration.formEnabled = false;
@@ -100,8 +102,8 @@ export default function FormNewHistory() {
   }
 
   return (
-    <div className="formNewHistory">
-      <form className="transactionForm">
+    <div className="formNewHistory" onClick={ (e)=>closeForm(e) }>
+      <form className="transactionForm" onClick={ (e)=> e.stopPropagation() }>
         <fieldset className="formTransactionType" onChange={ (e)=> addNewData("transactionType", e.target.value) }>
           <legend>Transaction type</legend>
           <label>
@@ -149,8 +151,8 @@ export default function FormNewHistory() {
 
         
         <div className="formButtonContainer">
-          <button onClick={ addNewHistory }> Add </button>
-          <button onClick={ closeForm }> Cancel </button>
+          <button onClick={ (e)=>addNewHistory(e) }> Add </button>
+          <button onClick={ (e)=>closeForm(e) }> Cancel </button>
         </div>
       </form>
     </div>

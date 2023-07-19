@@ -2,9 +2,15 @@ import { VictoryPie } from "victory";
 import { useGlobalState } from "../context/GlobalState";
 import FormChartConfig from "./FormChartConfig.jsx";
 import { Icons } from "../Icons.js";
+import { useState } from "react";
 
 export default function Chart() {
-  const {histories, informationData, configuration} = useGlobalState();
+  const { histories, informationData, configuration } = useGlobalState();
+  const [infoChart, setInfoChart] = useState({
+    type: "",
+    amount: 0,
+    percentage: ""
+  });
 
   const chartConfigCopy = {...configuration.configurationData.chartConfig};
   const historiesCopy = [...histories.histories];
@@ -70,8 +76,8 @@ export default function Chart() {
   
         chartData = {
           data: [
-            { x: "income", y: incomePercentage, label: `${ incomePercentage.toFixed(2) }%` },
-            { x: "expenses", y: expensesPercentage, label: `${ expensesPercentage.toFixed(2) }%` },
+            { x: "income", y: incomePercentage, label: `${ incomePercentage.toFixed(2) }%`, amount: totalIncome },
+            { x: "expenses", y: expensesPercentage, label: `${ expensesPercentage.toFixed(2) }%`, amount: totalExpenses },
           ],
           colors: ["#0F9D58aa", "#db4537aa"],
         };
@@ -100,7 +106,7 @@ export default function Chart() {
           colors.push(colorCopy[indexColor]);
       
           const categoryPercentage = (category.amount / totalAmount) * 100;
-          newData.push({ x: category.category, y: categoryPercentage, label: `${ categoryPercentage.toFixed(2) }%` });
+          newData.push({ x: category.category, y: categoryPercentage, label: `${ categoryPercentage.toFixed(2) }%`, amount: category.amount });
         });
   
         chartData = {
@@ -109,10 +115,6 @@ export default function Chart() {
         };
       }
     }
-  }
-
-  const mostrar = (valor)=> {
-    alert(valor)
   }
 
   const showChart = ()=> {
@@ -125,27 +127,29 @@ export default function Chart() {
         </div>
       );
     } else {
+      const eventHandler = {
+        onClick: () => {
+          return [
+            {
+              mutation: ({ datum }) => {
+                return showInfo(datum.x);
+              }
+            }
+          ]
+        }
+      }
+
       return(
         <VictoryPie
           padAngle={ 2 }
           innerRadius={ 80 }
           labelRadius={ 85 }
-          labelPlacement={ "parallel" } //"vertical"
+          labelPlacement={ "parallel" }
           style={ { labels: { fill: "white", fontSize: 15, fontWeight: "bold" } } }
-          events={[{
-            target: "labels",
-            eventHandlers: {
-              onClick: () => {
-                return [
-                  {
-                    mutation: ({ datum }) => {
-                      return mostrar(datum.y);
-                    }
-                  }
-                ]
-              }
-            }
-          }]}
+          events={ [
+            { target: "labels", eventHandlers: eventHandler },
+            { target: "data", eventHandlers: eventHandler }
+          ] }
           colorScale={ chartData.colors }
           data={ chartData.data }
         />
@@ -153,23 +157,65 @@ export default function Chart() {
     }
   }
 
-  const openChartForm = ()=> {
+  const showInfo = (element)=> {
+    const configData = { ...configuration.configurationData };
+    const newData = { ...infoChart };
+    const object = chartData.data.filter((object)=> object.x === element);
+
+    newData.type = object[0].x;
+    newData.amount = object[0].amount;
+    newData.percentage = object[0].label;
+    
+    configData.infoChart = true;
+    configData.formChartEnabled = false;
+
+    configuration.setConfigurationData(configData);
+    setInfoChart(newData);
+  }
+
+  const openChartForm = (e)=> {
+    e.stopPropagation()
     const configData = { ...configuration.configurationData };
     configData.formChartEnabled = !configData.formChartEnabled;
+    configData.infoChart = false;
+    configuration.setConfigurationData(configData);
+  }
+
+  const closeInfoChart = ()=> {
+    const configData = { ...configuration.configurationData };
+
+    configData.infoChart = false;
+    configData.formChartEnabled = false;
+
     configuration.setConfigurationData(configData);
   }
 
   return (
-    <div className="chart">
+    <div className="chart" onClick={ (e)=> e.stopPropagation() }/* onClick={ (e)=> closeAllForms(e) } */>
       <div className="chartConfigInfo">
         <div className="chartConfigIcon">
-          <img className="configImg" src={ Icons.Configuration } alt="configIcon" onClick={ openChartForm }/>
-          { configuration.configurationData.formChartEnabled ? <FormChartConfig/> : null }
+          <img className="configImg" src={ Icons.Filter } alt="configIcon" onClick={ (e)=> openChartForm(e) }/>
         </div>
         <div className="infoDataType">{ configuration.configurationData.chartConfig.dataType }</div>
       </div>
 
       { showChart() }
+
+      { configuration.configurationData.formChartEnabled === false ? 
+        null : 
+        <FormChartConfig/>
+      }
+
+      { configuration.configurationData.infoChart === false ? 
+        null : 
+        <div className="infoChartContainer" onClick={ closeInfoChart }>
+          <div className="infoChart">
+            <div> type: { infoChart.type }</div>
+            <div> amount: ${ infoChart.amount }</div>
+            <div> percentage: { infoChart.percentage }</div>
+          </div>
+        </div>
+      }
 
     </div>
   );

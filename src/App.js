@@ -7,8 +7,18 @@ import "./App.css";
 
 function App() {
   const {configuration} = useGlobalState();
+
+  const closeAllForms = ()=> {
+    const configData = { ...configuration.configurationData };
+
+    configData.formChartEnabled = false;
+    configData.infoChart = false;
+
+    configuration.setConfigurationData(configData);
+  }
+
   return (
-    <div className="App">
+    <div className="App" onClick={ closeAllForms }>
       <InfoHeader/>
       <Main/>
       { configuration.configurationData.formEnabled ? 
