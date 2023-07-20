@@ -6,7 +6,7 @@ export default function FormChartConfig() {
   const [state, setState] = useState(configuration.configurationData.chartConfig);
 
   const updateState = (element, value)=> {
-    const configurationCopy = {...configuration.configurationData}
+    const configurationCopy = { ...configuration.configurationData }
     const stateCopy = { ...state };
     stateCopy[element] = value;
     configurationCopy.chartConfig = stateCopy;
@@ -16,7 +16,7 @@ export default function FormChartConfig() {
   }
 
   const updateDateState = (object, value)=> {
-    const configurationCopy = {...configuration.configurationData};
+    const configurationCopy = { ...configuration.configurationData };
 
     const dateArray = value.split("-");
     
@@ -51,11 +51,11 @@ export default function FormChartConfig() {
       newDate.day = stateCopy[object].day < 10 ? `0${ stateCopy[object].day }` : `${ stateCopy[object].day }`;
     }
     
-    return (`${newDate.year}-${newDate.month}-${newDate.day}`);
+    return (`${ newDate.year }-${ newDate.month }-${ newDate.day }`);
   }
 
   const closeFormChart = ()=> {
-    const configurationCopy = {...configuration.configurationData}
+    const configurationCopy = { ...configuration.configurationData }
     
     configurationCopy.formChartEnabled = false;
     configuration.setConfigurationData(configurationCopy);

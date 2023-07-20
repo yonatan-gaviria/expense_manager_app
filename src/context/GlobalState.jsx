@@ -4,6 +4,8 @@ import { Icons } from "../Icons.js";
 const historiesData = [];
 
 const configuration = {
+  idHistoryToEdit: "",
+  onEdit: false,
   infoChart: false,
   formEnabled: false,
   formChartEnabled: false,

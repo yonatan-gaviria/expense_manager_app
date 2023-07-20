@@ -6,7 +6,7 @@ import FormNewHistory from "./components/FormNewHistory.jsx";
 import "./App.css";
 
 function App() {
-  const {configuration} = useGlobalState();
+  const { configuration } = useGlobalState();
 
   const closeAllForms = ()=> {
     const configData = { ...configuration.configurationData };

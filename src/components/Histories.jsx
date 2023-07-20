@@ -2,12 +2,12 @@ import { useGlobalState } from "../context/GlobalState.jsx";
 import History from "./History.jsx";
 
 export default function Histories() {
-  const {histories} = useGlobalState();
+  const { histories } = useGlobalState();
 
   return (
     <fieldset className="histories">
       <legend>Record</legend>
-      {histories.histories.map(
+      { histories.histories.map(
         (history)=> {
           return (
             <History 
@@ -16,7 +16,7 @@ export default function Histories() {
             />
           )
         }
-      )}
+      ) }
     </fieldset>
   )
 }

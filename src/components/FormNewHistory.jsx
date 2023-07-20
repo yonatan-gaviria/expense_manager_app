@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useGlobalState } from "../context/GlobalState"
 
 export default function FormNewHistory() {
-  const {histories, informationData, configuration} = useGlobalState();
+  const { histories, informationData, configuration } = useGlobalState();
   const [categories, setCategories] = useState(informationData.categories.expense.categories);
   const [data, setData] = useState({
     id: "",
@@ -36,7 +36,7 @@ export default function FormNewHistory() {
     newDate.month = today.month < 10 ? `0${ today.month }` : `${ today.month }`;
     newDate.day = today.day < 10 ? `0${ today.day }` : `${ today.day }`;
     
-    return (`${newDate.year}-${newDate.month}-${newDate.day}`);
+    return (`${ newDate.year }-${ newDate.month }-${ newDate.day }`);
   }
 
   const addNewData = (valueType, value)=> {
@@ -83,20 +83,29 @@ export default function FormNewHistory() {
       percentage: ""
     }
 
-    const newConfiguration = {...configuration.configurationData};
+    const newConfiguration = { ...configuration.configurationData };
+    
+    if(newConfiguration.onEdit) {
+      const index = newHistories.findIndex((history)=> history.id === newConfiguration.idHistoryToEdit);
+      newHistories[index] = newHistory;
+    } else {
+      newHistories = [newHistory, ...newHistories];
+    }
+    
+    newConfiguration.idHistoryToEdit = "";
+    newConfiguration.onEdit = false;
     newConfiguration.formEnabled = false;
     configuration.setConfigurationData(newConfiguration);
-    
-    newHistories = [newHistory, ...newHistories];
-
     histories.setHistories(newHistories);
   }
 
   const closeForm = (e)=> {
     e.preventDefault();
     e.stopPropagation();
-    const newConfiguration = {...configuration.configurationData};
+    const newConfiguration = { ...configuration.configurationData };
     
+    newConfiguration.idHistoryToEdit = "";
+    newConfiguration.onEdit = false;
     newConfiguration.formEnabled = false;
     configuration.setConfigurationData(newConfiguration);
   }
@@ -120,11 +129,11 @@ export default function FormNewHistory() {
         <fieldset className="formCategory">
           <legend>Category</legend>
           <select name="category" onChange={ (e)=> addNewData("category", e.target.value) }>
-            {categories.map((category, index)=> {
+            { categories.map((category, index)=> {
               return (
                 <option key={ index }> { category } </option>
               )
-            })}
+            }) }
           </select>
         </fieldset>
 
@@ -151,7 +160,9 @@ export default function FormNewHistory() {
 
         
         <div className="formButtonContainer">
-          <button onClick={ (e)=>addNewHistory(e) }> Add </button>
+          <button onClick={ (e)=>addNewHistory(e) }>
+            { configuration.configurationData.onEdit ? "Update" : "Add" }
+          </button>
           <button onClick={ (e)=>closeForm(e) }> Cancel </button>
         </div>
       </form>

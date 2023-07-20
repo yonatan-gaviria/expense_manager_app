@@ -9,6 +9,7 @@ export default function Main() {
     e.stopPropagation();
     const configData = { ...configuration.configurationData };
     configData.formEnabled = true;
+    configData.onEdit = false;
     configuration.setConfigurationData(configData);
   }
 

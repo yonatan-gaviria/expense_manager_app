@@ -12,7 +12,7 @@ export default function Chart() {
     percentage: ""
   });
 
-  const chartConfigCopy = {...configuration.configurationData.chartConfig};
+  const chartConfigCopy = { ...configuration.configurationData.chartConfig };
   const historiesCopy = [...histories.histories];
 
   let chartData = {
@@ -106,7 +106,12 @@ export default function Chart() {
           colors.push(colorCopy[indexColor]);
       
           const categoryPercentage = (category.amount / totalAmount) * 100;
-          newData.push({ x: category.category, y: categoryPercentage, label: `${ categoryPercentage.toFixed(2) }%`, amount: category.amount });
+          newData.push({ 
+            x: category.category, 
+            y: categoryPercentage, 
+            label: `${ categoryPercentage.toFixed(2) }%`, 
+            amount: category.amount 
+          });
         });
   
         chartData = {
@@ -191,7 +196,7 @@ export default function Chart() {
   }
 
   return (
-    <div className="chart" onClick={ (e)=> e.stopPropagation() }/* onClick={ (e)=> closeAllForms(e) } */>
+    <div className="chart" onClick={ (e)=> e.stopPropagation() }>
       <div className="chartConfigInfo">
         <div className="chartConfigIcon">
           <img className="configImg" src={ Icons.Filter } alt="configIcon" onClick={ (e)=> openChartForm(e) }/>
@@ -216,7 +221,6 @@ export default function Chart() {
           </div>
         </div>
       }
-
     </div>
   );
 }
