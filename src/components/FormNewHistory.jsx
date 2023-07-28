@@ -113,50 +113,53 @@ export default function FormNewHistory() {
   return (
     <div className="formNewHistory" onClick={ (e)=>closeForm(e) }>
       <form className="transactionForm" onClick={ (e)=> e.stopPropagation() }>
-        <fieldset className="formTransactionType" onChange={ (e)=> addNewData("transactionType", e.target.value) }>
-          <legend>Transaction type</legend>
-          <label>
-            <input type="radio" name="transactionType" value="income" /> 
-            Income 
-          </label>
+        <div>
+          <fieldset className="formTransactionType" onChange={ (e)=> addNewData("transactionType", e.target.value) }>
+            <legend>Transaction type</legend>
+            <label>
+              <input type="radio" name="transactionType" value="income" /> 
+              Income 
+            </label>
 
-          <label>
-            <input type="radio" name="transactionType" value="expense" defaultChecked/> 
-            Expense 
-          </label>
-        </fieldset>
+            <label>
+              <input type="radio" name="transactionType" value="expense" defaultChecked/> 
+              Expense 
+            </label>
+          </fieldset>
 
-        <fieldset className="formCategory">
-          <legend>Category</legend>
-          <select name="category" onChange={ (e)=> addNewData("category", e.target.value) }>
-            { categories.map((category, index)=> {
-              return (
-                <option key={ index }> { category } </option>
-              )
-            }) }
-          </select>
-        </fieldset>
+          <fieldset className="formCategory">
+            <legend>Category</legend>
+            <select name="category" onChange={ (e)=> addNewData("category", e.target.value) }>
+              { categories.map((category, index)=> {
+                return (
+                  <option key={ index }> { category } </option>
+                )
+              }) }
+            </select>
+          </fieldset>
 
-        <fieldset className="formDate">
-          <legend>Date</legend>
-          <input 
-            type="date" 
-            defaultValue={ dateNumberToString() } 
-            min="2000-01-01"
-            max={ dateNumberToString() }
-            onChange={ (e)=> addNewData("date", e.target.value) }
-          />
-        </fieldset>
+          <fieldset className="formDate">
+            <legend>Date</legend>
+            <input 
+              type="date" 
+              defaultValue={ dateNumberToString() } 
+              min="2000-01-01"
+              max={ dateNumberToString() }
+              onChange={ (e)=> addNewData("date", e.target.value) }
+            />
+          </fieldset>
 
-        <fieldset className="formAmount">
-          <legend>Amount</legend>
-          <input type="number" onChange={ (e)=> addNewData("amount", Math.abs(Number(e.target.value))) } />
-        </fieldset>
+          <fieldset className="formAmount">
+            <legend>Amount</legend>
+            <input type="number" onChange={ (e)=> addNewData("amount", Math.abs(Number(e.target.value))) } />
+          </fieldset>
 
-        <fieldset className="formDescription">
-          <legend>Description</legend>
-          <input type="text" onChange={ (e)=> addNewData("description", e.target.value) } />
-        </fieldset>
+          <fieldset className="formDescription">
+            <legend>Description</legend>
+            <input type="text" onChange={ (e)=> addNewData("description", e.target.value) } />
+          </fieldset>
+        </div>
+        
 
         
         <div className="formButtonContainer">

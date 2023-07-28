@@ -165,6 +165,7 @@ hr {
   border-radius: 15px;
   padding: 10px;
   box-sizing: border-box;
+  box-shadow: 3px 3px 5px 0px #666666aa;
 }
 
 .categoryContainer {
@@ -212,7 +213,18 @@ hr {
 }
 
 .dateAndDelete :last-child {
+  display: flex;
+  width: 20px;
+  height: 20px;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  background-color: #db4537aa;
+  border-radius: 50%;
+  font-size: 10px;
+  font-weight: bold;
   margin-left: 10px;
+  box-shadow: 2px 2px 5px 0px #666666aa;
 }
 
 .amount.income {
@@ -252,15 +264,16 @@ hr {
 
 .newHistory {
   display: flex;
-  position: absolute;
-  background-color: green;
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
+  min-width: 100%;
+  min-height: 60px;
+  margin-bottom: 10px;
   justify-content: center;
   align-items: center;
-  right: 25px;
-  bottom: 25px;
+  background-color: green;
+  border-radius: 15px;
+  padding: 10px;
+  box-sizing: border-box;
+  box-shadow: 3px 3px 5px 0px #666666aa;
 }
 
 .formNewHistory {
@@ -275,13 +288,17 @@ hr {
 }
 
 .transactionForm {
-  display: grid;
-  width: 80%;
-  height: 80%;
+  flex-direction: column;
+  display: flex;
+  background-color: white;
   padding: 10px;
+  border-radius: 10px;
+}
+
+.transactionForm div {
+  display: grid;
   gap: 10px;
   grid-template-columns: 1fr;
-  background-color: white;
   justify-content: center;
   align-items: center;
 }
@@ -290,4 +307,20 @@ hr {
   padding: 10px;
   display: flex;
   justify-content: space-between;
+}
+
+@media (orientation: landscape) {
+  .main {
+    display: flex;
+    gap: 10px;
+    justify-content: space-between;
+  }
+
+  .main fieldset {
+    width: 48.5%;
+  }
+
+  .transactionForm div {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
