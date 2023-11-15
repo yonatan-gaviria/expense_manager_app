@@ -32,8 +32,7 @@ export default function Chart() {
 
   const filterByDate = (data)=> {
     function getDateTime(year, month, day) {
-      const monthDate = new Date(year, month, 0).getDate();
-      const time = (year * 365) + (month * monthDate) + day;
+      const time = new Date(year, month - 1, day).getTime();
       return (time);
     }
 
@@ -76,7 +75,7 @@ export default function Chart() {
   
         chartData = {
           data: [
-            { x: "income", y: incomePercentage, label: `${ incomePercentage.toFixed(2) }%`, amount: totalIncome },
+            { x: "income", y: incomePercentage, label: `${ incomePercentage.toFixed(2) }%`, amount: (totalIncome - totalExpenses) },
             { x: "expenses", y: expensesPercentage, label: `${ expensesPercentage.toFixed(2) }%`, amount: totalExpenses },
           ],
           colors: ["#0F9D58aa", "#db4537aa"],

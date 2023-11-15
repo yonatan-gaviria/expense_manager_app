@@ -3,14 +3,19 @@ import { useGlobalState } from "../context/GlobalState"
 
 export default function FormNewHistory() {
   const { histories, informationData, configuration } = useGlobalState();
-  const [categories, setCategories] = useState(informationData.categories.expense.categories);
+  const [categories, setCategories] = useState(configuration.configurationData.onEdit ? 
+    informationData.categories[configuration.configurationData.transactionTypeHistoryToEdit].categories : 
+    informationData.categories.expense.categories
+  );
   const [data, setData] = useState({
     id: "",
-    amount: 0,
-    description: "NO DESCRIPTION",
-    transactionType: "expense",
-    category: categories[0],
-    date: {
+    amount: configuration.configurationData.onEdit ? configuration.configurationData.amountHistoryToEdit : "",
+    description: configuration.configurationData.onEdit && configuration.configurationData.descriptionHistoryToEdit !== "NO DESCRIPTION" ? 
+        configuration.configurationData.descriptionHistoryToEdit : "",
+    transactionType: configuration.configurationData.onEdit ? configuration.configurationData.transactionTypeHistoryToEdit : "expense",
+    category: configuration.configurationData.onEdit ? configuration.configurationData.categoryHistoryToEdit : categories[0],
+    date: configuration.configurationData.onEdit ? configuration.configurationData.dateHistoryToEdit :
+    {
       year: Number(new Date().getFullYear()),
       month: Number(new Date().getMonth()) + 1,
       day: Number(new Date().getDate()),
@@ -20,23 +25,18 @@ export default function FormNewHistory() {
     percentage: "",
   });
 
-  const dateNumberToString = ()=> {
+  const dateNumberToString = (year, month, day)=> {
     const newDate = {
-      year: 0,
-      month: 0,
-      day: 0,
+      newYear: 0,
+      newMonth: 0,
+      newDay: 0,
     }
-
-    const today = {
-      month: Number(new Date().getMonth()) + 1,
-      day: Number(new Date().getDate()),
-    };
     
-    newDate.year = new Date().getFullYear();
-    newDate.month = today.month < 10 ? `0${ today.month }` : `${ today.month }`;
-    newDate.day = today.day < 10 ? `0${ today.day }` : `${ today.day }`;
+    newDate.newYear = year;
+    newDate.newMonth = month < 10 ? `0${ month }` : `${ month }`;
+    newDate.newDay = day < 10 ? `0${ day }` : `${ day }`;
     
-    return (`${ newDate.year }-${ newDate.month }-${ newDate.day }`);
+    return (`${ newDate.newYear }-${ newDate.newMonth }-${ newDate.newDay }`);
   }
 
   const addNewData = (valueType, value)=> {
@@ -70,7 +70,7 @@ export default function FormNewHistory() {
     const newHistory = {
       id: new Date(),
       amount: data.amount,
-      description: data.description,
+      description: data.description === "" ? "NO DESCRIPTION" : data.description,
       transactionType: data.transactionType,
       category: data.category,
       date: {
@@ -117,12 +117,18 @@ export default function FormNewHistory() {
           <fieldset className="formTransactionType" onChange={ (e)=> addNewData("transactionType", e.target.value) }>
             <legend>Transaction type</legend>
             <label>
-              <input type="radio" name="transactionType" value="income" /> 
+              { configuration.configurationData.onEdit && configuration.configurationData.transactionTypeHistoryToEdit === "income" ?
+                <input type="radio" name="transactionType" value="income" defaultChecked/> : 
+                <input type="radio" name="transactionType" value="income" />
+              }
               Income 
             </label>
 
             <label>
-              <input type="radio" name="transactionType" value="expense" defaultChecked/> 
+              { configuration.configurationData.onEdit && configuration.configurationData.transactionTypeHistoryToEdit === "income" ?
+                <input type="radio" name="transactionType" value="expense" /> : 
+                <input type="radio" name="transactionType" value="expense" defaultChecked/>
+              }
               Expense 
             </label>
           </fieldset>
@@ -131,9 +137,15 @@ export default function FormNewHistory() {
             <legend>Category</legend>
             <select name="category" onChange={ (e)=> addNewData("category", e.target.value) }>
               { categories.map((category, index)=> {
-                return (
-                  <option key={ index }> { category } </option>
-                )
+                if(configuration.configurationData.onEdit) {
+                  return (
+                    configuration.configurationData.categoryHistoryToEdit === category ?
+                    <option key={ index } selected={true}> { category } </option> : 
+                    <option key={ index }> { category } </option>
+                  )
+                } else {
+                  return(<option key={ index }> { category } </option>)
+                }
               }) }
             </select>
           </fieldset>
@@ -142,21 +154,25 @@ export default function FormNewHistory() {
             <legend>Date</legend>
             <input 
               type="date" 
-              defaultValue={ dateNumberToString() } 
+              defaultValue={ dateNumberToString( data.date.year, data.date.month, data.date.day ) } 
               min="2000-01-01"
-              max={ dateNumberToString() }
+              max={ dateNumberToString( Number(new Date().getFullYear()), Number(new Date().getMonth()) + 1, Number(new Date().getDate()) ) }
               onChange={ (e)=> addNewData("date", e.target.value) }
             />
           </fieldset>
 
           <fieldset className="formAmount">
             <legend>Amount</legend>
-            <input type="number" onChange={ (e)=> addNewData("amount", Math.abs(Number(e.target.value))) } />
+            <input 
+              type="number" 
+              onChange={ (e)=> addNewData("amount", Math.abs(Number(e.target.value))) } 
+              defaultValue={ data.amount }
+            />
           </fieldset>
 
           <fieldset className="formDescription">
             <legend>Description</legend>
-            <input type="text" onChange={ (e)=> addNewData("description", e.target.value) } />
+            <input type="text" onChange={ (e)=> addNewData("description", e.target.value) } defaultValue={ data.description } /> 
           </fieldset>
         </div>
         

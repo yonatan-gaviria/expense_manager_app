@@ -5,6 +5,11 @@ const historiesData = [];
 
 const configuration = {
   idHistoryToEdit: "",
+  categoryHistoryToEdit: "",
+  dateHistoryToEdit: { year: 0, month: 0, day: 0 },
+  amountHistoryToEdit: 0,
+  descriptionHistoryToEdit: "",
+  transactionTypeHistoryToEdit: "",
   onEdit: false,
   infoChart: false,
   formEnabled: false,

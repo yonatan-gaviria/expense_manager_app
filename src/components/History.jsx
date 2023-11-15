@@ -11,10 +11,16 @@ export default function History({ data }) {
   }
 
   const enableEditMode = (e)=> {
+    e.preventDefault();
     e.stopPropagation();
 
     const configurationCopy = { ...configuration.configurationData };
     configurationCopy.idHistoryToEdit = data.id;
+    configurationCopy.categoryHistoryToEdit = data.category;
+    configurationCopy.dateHistoryToEdit = data.date;
+    configurationCopy.amountHistoryToEdit = data.amount;
+    configurationCopy.descriptionHistoryToEdit = data.description;
+    configurationCopy.transactionTypeHistoryToEdit = data.transactionType;
     configurationCopy.onEdit = true;
     configurationCopy.formEnabled = true;
 
